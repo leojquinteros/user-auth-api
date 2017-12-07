@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Basic user authentication API using JWT, Mongoose and Multer",
   "author": "Leonel Quinteros",
-  "main": "app.js",
   "scripts": {
     "start": "nodemon ./bin/www"
   },

@@ -1,7 +1,7 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
-const errors = require('./config').errors;
+const config = require('./config');
 
 const authConfig = {
     prefix: 'Bearer',
@@ -28,7 +28,7 @@ const validateToken = (tokenParam) => {
 
     try {
         if(!tokenParam) {
-            response.error = errors.credentialsMissing;
+            response.error = config.errors.credentialsMissing;
             return response;
         }
 
@@ -36,7 +36,7 @@ const validateToken = (tokenParam) => {
         const payload = jwt.verify(token, authConfig.privateKey);
 
         if(payload.exp <= moment().unix()) {
-            response.error = errors.expiredToken;
+            response.error = config.errors.expiredToken;
             return response;
         }
 
@@ -45,7 +45,7 @@ const validateToken = (tokenParam) => {
         return response;
 
     } catch(err) {
-        response.error = errors.invalidToken;
+        response.error = config.errors.invalidToken;
         return response;
     }
 };
@@ -55,7 +55,7 @@ const isAuthenticated = (req, res, next) => {
     const response = validateToken(token);
 
     if (response.error != null){
-        return errors.commonErrorResponse(res, response.error);
+        return config.commonErrorResponse(res, response.error);
     }
 
     if (response.uid != null){

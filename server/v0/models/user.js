@@ -87,10 +87,10 @@ UserSchema.statics = {
                         }
                     }
                 ]).then((data) => {
-                    if(!data) {
+                    if(!data || data.length == 0) {
                         reject(errors.userNotFound);
                     } else {
-                        resolve(data);
+                        resolve(data[0]);
                     }
                 }).catch((err) => {
                     console.log(err);

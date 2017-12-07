@@ -38,10 +38,10 @@ router.get('/avatar', auth.isAuthenticated, (req, res, next) => {
                 readStream.pipe(res);
             });
             readStream.on('error', () => {
-                config.commonErrorResponse(res, config.internalError);
+                config.commonErrorResponse(res, config.errors.internalError);
             });
         } else {
-            config.commonErrorResponse(res, config.avatarNotFound);
+            config.commonErrorResponse(res, config.errors.avatarNotFound);
         }
     }).catch( (err)  => {
         config.commonErrorResponse(res, err);

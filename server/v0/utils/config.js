@@ -51,7 +51,7 @@ const errors = {
 };
 
 const commonErrorResponse = (res, error) => {
-    const status = error !== null && error.status ? error.status : 500;
+    const status = error && error.status ? error.status : 500;
     return res.status(status).json({
         successful: false, 
         error: error.message
