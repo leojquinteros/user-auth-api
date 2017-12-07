@@ -1,10 +1,15 @@
 {
   "name": "user-auth-api",
   "version": "0.0.1",
-  "description" : "Basic user authentication API using JWT, Mongoose and Multer",
-  "private": true,
+  "description": "Basic user authentication API using JWT, Mongoose and Multer",
+  "author": "Leonel Quinteros",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leojquinteros/user-auth-api"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
@@ -17,5 +22,6 @@
     "mongoose": "^4.13.2",
     "morgan": "~1.8.1",
     "multer": "^1.3.0"
-  }
+  },
+  "license": "MIT"
 }
