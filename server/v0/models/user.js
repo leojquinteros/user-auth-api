@@ -34,7 +34,7 @@ const UserSchema = Schema({
     collection: 'users'
 });
 
-PassengerSchema.statics = {
+UserSchema.statics = {
     
     signUp: (email, password) => {
         return new Promise((resolve, reject) => {
@@ -104,17 +104,17 @@ PassengerSchema.statics = {
 
     resetPassword: (body) => {
         return new Promise((resolve, reject) => {
-            Passenger.findOne({
+            User.findOne({
                 email: body.email
-            }).then((passenger) => {
-                if (!passenger) {
+            }).then((user) => {
+                if (!user) {
                     reject(errors.userNotFound);
                 }
-                passenger.password = utils.hashPassword(body.password);
-                passenger.save().then((passenger) => {
+                user.password = utils.hashPassword(body.password);
+                user.save().then((user) => {
                     resolve({
                         successful: true,
-                        email: passenger.email
+                        email: user.email
                     });
                 }).catch((err) => {
                     console.log(err);
@@ -156,13 +156,13 @@ PassengerSchema.statics = {
                         phone: body.phone,
                         address: body.address
                     }
-                }).then((passenger) => {
-                    if (!passenger) {
-                        reject(errors.passengerNotFound);
+                }).then((user) => {
+                    if (!user) {
+                        reject(errors.userNotFound);
                     }
                     resolve({
                         successful: true,
-                        _id: passenger._id
+                        _id: user._id
                     });
                 }).catch((err) => {
                     console.log(err);
