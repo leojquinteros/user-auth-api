@@ -18,10 +18,6 @@ const errors = {
     },
     userNotFound: {
         status: 404,
-        message: 'Email not registered.'
-    },
-    userNotFound: {
-        status: 404,
         message: 'User not found.'
     },
     avatarNotFound: {
@@ -32,7 +28,7 @@ const errors = {
         status: 400,
         message: 'Only image files are allowed.'
     },
-    passwordInvalid: {
+    invalidPassword: {
         status: 401,
         message: 'Invalid password.'
     },
