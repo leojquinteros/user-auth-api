@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const config = require('../../utils/errors');
+const config = require('../../utils/config');
 const auth = require('../../utils/jwt');
 const User = require('../../models/user');
 
@@ -15,7 +15,7 @@ router.get('/me', auth.isAuthenticated, (req, res, next) => {
 });
 
 router.patch('/', auth.isAuthenticated, (req, res, next) => {
-    Passenger.fillAccount(req._user.id, req.body).then( (result) => {
+    User.fillAccount(req._user.id, req.body).then( (result) => {
         config.commonSuccessResponse(res, result);
     }).catch( (err)  => {
         config.commonErrorResponse(res, err);

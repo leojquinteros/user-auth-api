@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectID = mongoose.Types.ObjectId;
 const passwd = require('../utils/bcrypt');
-const errors = require('../utils/errors');
+const errors = require('../utils/config').errors;
 
 const UserSchema = Schema({
     name: String,

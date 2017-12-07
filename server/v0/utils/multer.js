@@ -1,6 +1,6 @@
 'use strict';
 const multer  = require('multer');
-const invalidAvatarFileError = require('./errors').invalidAvatarFile;
+const invalidAvatarFileError = require('./config').errors.invalidAvatarFile;
 
 const multerConfig = {
     destinationFolder: 'uploads/',

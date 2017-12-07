@@ -50,7 +50,7 @@ const errors = {
     }
 };
 
-errors.commonErrorResponse = (res, error) => {
+const commonErrorResponse = (res, error) => {
     const status = error !== null && error.status ? error.status : 500;
     return res.status(status).json({
         successful: false, 
@@ -58,9 +58,11 @@ errors.commonErrorResponse = (res, error) => {
     });
 };
 
-errors.commonSuccessResponse = (res, data, prevStatus) => {
+const commonSuccessResponse = (res, data, prevStatus) => {
     const status = prevStatus ? prevStatus : 200;
     return res.status(status).json(data);
 };
 
-module.exports = errors;
+exports.errors = errors;
+exports.commonSuccessResponse = commonSuccessResponse;
+exports.commonErrorResponse = commonErrorResponse;

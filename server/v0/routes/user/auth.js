@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const authCtrl = require('../../controllers/auth');
-const config = require('../../utils/errors');
+const config = require('../../utils/config');
 
 router.post('/sign_up', (req, res) => {
     authCtrl.register(req.body).then( (result) => {

@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const jwtoken = require('../utils/jwt');
 const User = require('../models/user');
-const missingInputError = require('../utils/errors').missingInput;
+const missingInputError = require('../utils/config').errors.missingInput;
 
 const register = (body) => {
     return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
-const errors = require('./errors');
+const errors = require('./config').errors;
 
 const authConfig = {
     prefix: 'Bearer',

@@ -4,7 +4,7 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const avatar = require('../../utils/multer');
-const config = require('../../utils/errors');
+const config = require('../../utils/config');
 const auth = require('../../utils/jwt');
 const User = require('../../models/user');
 
