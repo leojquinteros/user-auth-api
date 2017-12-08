@@ -26,14 +26,10 @@ const login = (body) => {
         if (!body.email || !body.password) {
             return reject(missingInputError);
         }
-        let user = null;
-        User.findByCredentials(body.email, body.password).then((data) => {
-            user = data;
-            return User.publicData(user._id);
-        }).then((data) => {
+        User.findByCredentials(body.email, body.password).then((user) => {
             resolve({
                 token: jwtoken.createToken(user._id),
-                data: data
+                data: user
             });
         }).catch((err) => {
             console.log(err);

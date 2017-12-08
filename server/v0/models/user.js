@@ -86,11 +86,11 @@ UserSchema.statics = {
                             }
                         }
                     }
-                ]).then((data) => {
-                    if(!data || data.length == 0) {
+                ]).then((user) => {
+                    if(!user || user.length == 0) {
                         reject(errors.userNotFound);
                     } else {
-                        resolve(data[0]);
+                        resolve(user[0]);
                     }
                 }).catch((err) => {
                     console.log(err);
@@ -136,14 +136,20 @@ UserSchema.statics = {
         return new Promise((resolve, reject) => {
             User.findOne({
                 email: email
-            }).then((result) => {
-                if (!result) {
+            })
+            .then((user) => {
+                if (!user) {
                     reject(errors.userNotFound);
                 }
-                if (!passwd.checkPassword(password, result.password)) {
+                if (!passwd.checkPassword(password, user.password)) {
                     reject(errors.invalidPassword);
                 }
-                resolve(result);
+                return User.publicData(user._id).then((user) => {
+                    resolve(user);
+                }).catch((err) =>{
+                    console.log(err);
+                    reject(err);
+                });
             }).catch((err) =>{
                 console.log(err);
                 reject(err);
