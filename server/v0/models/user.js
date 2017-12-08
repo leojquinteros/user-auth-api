@@ -104,27 +104,31 @@ UserSchema.statics = {
 
     resetPassword: (id, body) => {
         return new Promise((resolve, reject) => {
-            User.findById(id).then((user) => {
-                if (!user) {
-                    reject(errors.userNotFound);
-                }
-                if (!passwd.checkPassword(body.password, user.password)) {
-                    reject(errors.invalidPassword);
-                }
-                user.password = passwd.hashPassword(body.newPassword);
-                user.save().then((user) => {
-                    resolve({
-                        successful: true,
-                        _id: user._id
+            if (ObjectID.isValid(id)) {
+                User.findById(id).then((user) => {
+                    if (!user) {
+                        reject(errors.userNotFound);
+                    }
+                    if (!passwd.checkPassword(body.password, user.password)) {
+                        reject(errors.invalidPassword);
+                    }
+                    user.password = passwd.hashPassword(body.newPassword);
+                    user.save().then((user) => {
+                        resolve({
+                            successful: true,
+                            _id: user._id
+                        });
+                    }).catch((err) => {
+                        console.log(err);
+                        reject(err);
                     });
-                }).catch((err) => {
+                }).catch((err) =>{
                     console.log(err);
                     reject(err);
                 });
-            }).catch((err) =>{
-                console.log(err);
-                reject(err);
-            });
+            } else {
+                reject(errors.invalidObjectID);
+            }
         })
     },
 
