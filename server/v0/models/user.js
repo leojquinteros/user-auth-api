@@ -102,19 +102,20 @@ UserSchema.statics = {
         });
     },
 
-    resetPassword: (body) => {
+    resetPassword: (id, body) => {
         return new Promise((resolve, reject) => {
-            User.findOne({
-                email: body.email
-            }).then((user) => {
+            User.findById(id).then((user) => {
                 if (!user) {
                     reject(errors.userNotFound);
                 }
-                user.password = utils.hashPassword(body.password);
+                if (!passwd.checkPassword(body.password, user.password)) {
+                    reject(errors.invalidPassword);
+                }
+                user.password = passwd.hashPassword(body.newPassword);
                 user.save().then((user) => {
                     resolve({
                         successful: true,
-                        email: user.email
+                        _id: user._id
                     });
                 }).catch((err) => {
                     console.log(err);

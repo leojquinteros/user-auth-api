@@ -22,4 +22,12 @@ router.patch('/', auth.isAuthenticated, (req, res, next) => {
     });
 });
 
+router.post('/resetPassword', auth.isAuthenticated, (req, res, next) => {
+    User.resetPassword(req._user.id, req.body).then( (result) => {
+        config.commonSuccessResponse(res, result);
+    }).catch( (err)  => {
+        config.commonErrorResponse(res, err);
+    });
+});
+
 module.exports = router;
