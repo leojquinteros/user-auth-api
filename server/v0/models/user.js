@@ -110,7 +110,7 @@ UserSchema.statics = {
                         reject(errors.userNotFound);
                     }
                     if (!passwd.checkPassword(body.password, user.password)) {
-                        reject(errors.invalidPassword);
+                        reject(errors.incorrectPassword);
                     }
                     user.password = passwd.hashPassword(body.newPassword);
                     user.save().then((user) => {
@@ -142,7 +142,7 @@ UserSchema.statics = {
                     reject(errors.userNotFound);
                 }
                 if (!passwd.checkPassword(password, user.password)) {
-                    reject(errors.invalidPassword);
+                    reject(errors.incorrectPassword);
                 }
                 return User.publicData(user._id).then((user) => {
                     resolve(user);

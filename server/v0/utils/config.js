@@ -28,9 +28,17 @@ const errors = {
         status: 400,
         message: 'Only image files are allowed.'
     },
-    invalidPassword: {
+    incorrectPassword: {
         status: 401,
-        message: 'Invalid password.'
+        message: 'Incorrect password.'
+    },
+    invalidEmail: {
+        status: 422,
+        message: 'Invalid email.'
+    },
+    invalidPassword: {
+        status: 422,
+        message: 'Invalid password. It must be between 5 and 12 characters.'
     },
     credentialsMissing: {
         status: 401,
