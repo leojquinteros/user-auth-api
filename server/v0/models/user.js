@@ -144,12 +144,7 @@ UserSchema.statics = {
                 if (!passwd.checkPassword(password, user.password)) {
                     reject(errors.incorrectPassword);
                 }
-                return User.publicData(user._id).then((user) => {
-                    resolve(user);
-                }).catch((err) =>{
-                    console.log(err);
-                    reject(err);
-                });
+                resolve(user);
             }).catch((err) =>{
                 console.log(err);
                 reject(err);

@@ -39,10 +39,14 @@ const login = (body) => {
         if(!validator.isValidPassword(body.password)) {
             return reject(errors.invalidPassword);
         }
-        User.findByCredentials(body.email, body.password).then((user) => {
+        let user = null;
+        User.findByCredentials(body.email, body.password).then((data) => {
+            user = data;
+            return User.publicData(user._id);
+        }).then((data) => {
             resolve({
                 token: jwtoken.createToken(user._id),
-                data: user
+                data: data
             });
         }).catch((err) => {
             console.log(err);
