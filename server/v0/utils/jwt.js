@@ -1,71 +1,70 @@
-'use strict';
-const jwt = require('jsonwebtoken');
-const moment = require('moment');
-const config = require('./config');
+'use strict'
+const jwt = require('jsonwebtoken')
+const moment = require('moment')
+const config = require('./config')
 
 const authConfig = {
-    prefix: 'Bearer',
-    privateKey : 'user-auth-api@leojquinteros',
-    durationType: "days",
-    duration: 7
-};
+  prefix: 'Bearer',
+  privateKey: 'user-auth-api@leojquinteros',
+  durationType: 'days',
+  duration: 7
+}
 
 const createToken = (id) => {
-    const payload = {
-        iat: moment().unix(),
-        exp: moment().add(authConfig.duration, authConfig.durationType).unix(),
-        uid: id
-    };
+  const payload = {
+    iat: moment().unix(),
+    exp: moment().add(authConfig.duration, authConfig.durationType).unix(),
+    uid: id
+  }
 
-    return jwt.sign(payload, authConfig.privateKey);
-};
+  return jwt.sign(payload, authConfig.privateKey)
+}
 
 const validateToken = (tokenParam) => {
-    let response = {
-        error: null,
-        id: null
-    };
+  let response = {
+    error: null,
+    id: null
+  }
 
-    try {
-        if(!tokenParam) {
-            response.error = config.errors.credentialsMissing;
-            return response;
-        }
-
-        const token = tokenParam.substr(0, authConfig.prefix.length) === authConfig.prefix ? tokenParam.split(" ")[1] : tokenParam;
-        const payload = jwt.verify(token, authConfig.privateKey);
-
-        if(payload.exp <= moment().unix()) {
-            response.error = config.errors.expiredToken;
-            return response;
-        }
-
-        if (payload.uid) response.uid = payload.uid;
-
-        return response;
-
-    } catch(err) {
-        response.error = config.errors.invalidToken;
-        return response;
+  try {
+    if (!tokenParam) {
+      response.error = config.errors.credentialsMissing
+      return response
     }
-};
+
+    const token = tokenParam.substr(0, authConfig.prefix.length) === authConfig.prefix ? tokenParam.split(' ')[1] : tokenParam
+    const payload = jwt.verify(token, authConfig.privateKey)
+
+    if (payload.exp <= moment().unix()) {
+      response.error = config.errors.expiredToken
+      return response
+    }
+
+    if (payload.uid) response.uid = payload.uid
+
+    return response
+  } catch (err) {
+    response.error = config.errors.invalidToken
+    return response
+  }
+}
 
 const isAuthenticated = (req, res, next) => {
-    const token = req.headers.authorization;
-    const response = validateToken(token);
+  const token = req.headers.authorization
+  const response = validateToken(token)
 
-    if (response.error != null){
-        return config.commonErrorResponse(res, response.error);
+  if (response.error != null) {
+    return config.commonErrorResponse(res, response.error)
+  }
+
+  if (response.uid != null) {
+    req._user = {
+      id: response.uid
     }
+  }
 
-    if (response.uid != null){
-        req._user = {
-            id: response.uid
-        };
-    }
+  next()
+}
 
-    next();
-};
-
-exports.createToken = createToken;
-exports.isAuthenticated = isAuthenticated;
+exports.createToken = createToken
+exports.isAuthenticated = isAuthenticated
